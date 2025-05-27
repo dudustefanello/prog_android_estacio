@@ -11,9 +11,12 @@
       "extensions": [
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "msjsdiag.vscode-react-native"
+        "msjsdiag.vscode-react-native",
+        "ms-ceintl.vscode-language-pack-pt-br",
+        "expo.vscode-expo-tools"
       ]
     }
   },
-  "postCreateCommand": "npm install"
+  "postCreateCommand": "npm install -g yarn expo-cli @expo/ngrok",
+  "postStartCommand": "npm install"
 }
