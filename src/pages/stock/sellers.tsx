@@ -52,12 +52,11 @@ const Sellers = () => {
           <SafeAreaView style={styles.layountProducts} key={index}>
             <View style={styles.viewProducts}>
               <Text>
-                {product.nome} {"->"}
+                {product.nome}
               </Text>
               <Text>
-                {'R$ '}{product.preco} {"->"}
+                {`${product.quantidade} x ${product.preco} = ${product.quantidade * product.preco}`}
               </Text>
-              <Text>{product.quantidade}</Text>
             </View>
             <View style={styles.viewQuantidade}>
               <TouchableOpacity
@@ -80,7 +79,7 @@ const Sellers = () => {
 
       <View style={styles.totalPreco}>
         <Text>Total</Text>
-        <Text>{allPreco}</Text>
+        <Text>{`R$ ${allPreco}`}</Text>
       </View>
     </StockLayount>
   );
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   viewProducts: {
-    flexDirection: "row",
+    flexDirection: "column",
     gap: 8,
   },
   viewQuantidade: {
