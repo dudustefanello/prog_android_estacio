@@ -1,26 +1,29 @@
 import React, { useState } from "react";
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  SafeAreaView,
-  Text,
-} from "react-native";
+import { View, TextInput, StyleSheet, SafeAreaView, Text } from "react-native";
 import CustomButton from "../../components/ui/customButton";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../App";
+import { useStage } from "../../global/stages";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const Login = () => {
   const navigation = useNavigation<NavigationProp>();
+  const { setIsLoggedIn } = useStage();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
   const handleLogin = () => {
-    console.log("Email:", email);
-    console.log("Senha:", senha);
+    if (email.length != 0 && senha.length != 0) {
+      console.log({
+        email: email,
+        senha:senha
+      })
+      setIsLoggedIn(true);
+    } else {
+      console.log("Valor necessario");
+    }
   };
 
   return (
@@ -42,19 +45,22 @@ const Login = () => {
           onChangeText={setSenha}
           secureTextEntry
         />
-        <CustomButton title="Login" onPress={handleLogin}/>
-        <CustomButton title="Register" onPress={() => navigation.navigate('Register')}/>
+        <CustomButton title="Login" onPress={handleLogin} />
+        <CustomButton
+          title="Register"
+          onPress={() => navigation.navigate("Register")}
+        />
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
     justifyContent: "center",
-    alignItems: 'center',
+    alignItems: "center",
   },
   loginBox: {
     width: 200,
@@ -77,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login
+export default Login;

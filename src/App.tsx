@@ -8,6 +8,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import History from "./pages/stock/history";
 import RegisterProducts from "./pages/stock/registerProducts";
 import Sellers from "./pages/stock/sellers";
+import { StageProvider, useStage } from "./global/stages";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -17,7 +18,7 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
-function AuthScreen() {
+const AuthRouter = () => {
   return (
     <Stack.Navigator
       initialRouteName="Login"
@@ -33,7 +34,7 @@ function AuthScreen() {
   );
 }
 
-function AppTabs() {
+const AppStock = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -58,14 +59,22 @@ function AppTabs() {
       <Tab.Screen name="Histórico" component={History} />
     </Tab.Navigator>
   );
-}
+};
 
-export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+function MainNavigator() {
+  const { isLoggedIn } = useStage();
 
   return (
     <NavigationContainer>
-      {isLoggedIn ? <AppTabs /> : <AuthScreen />}
+      {isLoggedIn ? <AppStock /> : <AuthRouter />}
     </NavigationContainer>
+  );
+}
+
+export default function App() {
+  return (
+    <StageProvider>
+      <MainNavigator />
+    </StageProvider>
   );
 }
