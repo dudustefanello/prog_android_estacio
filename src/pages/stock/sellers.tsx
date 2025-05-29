@@ -17,6 +17,7 @@ type products = {
 const productStart: products[] = [
   { nome: "Salgado", quantidade: 0, preco: 20 },
   { nome: "Energético", quantidade: 0, preco: 40 },
+  { nome: "alface", quantidade: 0, preco: 10 },
 ];
 
 const Sellers = () => {
@@ -31,18 +32,10 @@ const Sellers = () => {
     setAllPreco(total);
   }, [products]);
 
-  const somarProdutos = (index: number) => {
+  const somarProdutos = (index: number, mult: number = 1) => {
     const novosProdutos = [...products];
-    novosProdutos[index].quantidade += 1;
+    novosProdutos[index].quantidade += 1 * mult;
     setproducts(novosProdutos);
-  };
-
-  const diminuirProdutos = (index: number) => {
-    const novosProdutos = [...products];
-    if (novosProdutos[index].quantidade > 0) {
-      novosProdutos[index].quantidade -= 1;
-      setproducts(novosProdutos);
-    }
   };
 
   return (
@@ -61,15 +54,15 @@ const Sellers = () => {
             <View style={styles.viewQuantidade}>
               <TouchableOpacity
                 style={styles.botao}
-                onPress={() => somarProdutos(index)}
+                onPress={() => somarProdutos(index, -1)}
               >
-                <Text style={styles.sinal}>+</Text>
+                <Text style={styles.sinal}>−</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.botao}
-                onPress={() => diminuirProdutos(index)}
+                onPress={() => somarProdutos(index)}
               >
-                <Text style={styles.sinal}>−</Text>
+                <Text style={styles.sinal}>+</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.divisor}></View>
@@ -110,18 +103,18 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: "#ddd",
+    backgroundColor: "#ddd4",
     justifyContent: "center",
     alignItems: "center",
   },
   sinal: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: "medium",
   },
   divisor: {
     position: "absolute",
     width: "100%",
-    height: 2,
+    height: 1,
     backgroundColor: "gray",
     bottom: 0,
   },
