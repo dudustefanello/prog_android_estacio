@@ -5,8 +5,10 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ScrollView
 } from "react-native";
 import StockLayount from "../../components/layount/stockLayount";
+import ButtonStock from "../../components/ui/buttonStock";
 
 type products = {
   nome: string;
@@ -18,6 +20,19 @@ const productStart: products[] = [
   { nome: "Salgado", quantidade: 0, preco: 20 },
   { nome: "Energético", quantidade: 0, preco: 40 },
   { nome: "alface", quantidade: 0, preco: 10 },
+    { nome: "Salgado", quantidade: 0, preco: 20 },
+  { nome: "Energético", quantidade: 0, preco: 40 },
+  { nome: "alface", quantidade: 0, preco: 10 },
+    { nome: "Salgado", quantidade: 0, preco: 20 },
+  { nome: "Energético", quantidade: 0, preco: 40 },
+  { nome: "alface", quantidade: 0, preco: 10 },
+    { nome: "Salgado", quantidade: 0, preco: 20 },
+  { nome: "Energético", quantidade: 0, preco: 40 },
+  { nome: "alface", quantidade: 0, preco: 10 },
+    { nome: "Salgado", quantidade: 0, preco: 20 },
+  { nome: "Energético", quantidade: 0, preco: 40 },
+  { nome: "alface", quantidade: 0, preco: 10 },
+
 ];
 
 const Sellers = () => {
@@ -38,9 +53,14 @@ const Sellers = () => {
     setproducts(novosProdutos);
   };
 
+  const saveValue = () => {
+
+  }
+
   return (
     <StockLayount title="Vendas">
-      <View style={styles.containerSellers}>
+      <ScrollView>
+        <View style={styles.containerSellers}>
         {products.map((product, index) => (
           <SafeAreaView style={styles.layountProducts} key={index}>
             <View style={styles.viewProducts}>
@@ -69,19 +89,23 @@ const Sellers = () => {
           </SafeAreaView>
         ))}
       </View>
+      </ScrollView>
 
       <View style={styles.totalPreco}>
         <Text>Total</Text>
         <Text>{`R$ ${allPreco}`}</Text>
       </View>
+
+      <ButtonStock title="Salvar" onPress={saveValue}/>
     </StockLayount>
   );
 };
 
 const styles = StyleSheet.create({
   containerSellers: {
-    width: "80%",
+    width: "100%",
     alignItems: "flex-start",
+    paddingHorizontal:20
   },
   layountProducts: {
     width: "100%",
@@ -120,7 +144,7 @@ const styles = StyleSheet.create({
   },
   totalPreco: {
     marginTop:10,
-    width: "80%",
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

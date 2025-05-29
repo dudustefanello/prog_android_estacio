@@ -9,8 +9,10 @@ type stockLayountProps = {
 const StockLayount = ({ title, children }: stockLayountProps) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      {children}
+      <View style={styles.stockView}>
+        <Text style={styles.title}>{title}</Text>
+        {children}
+      </View>
     </SafeAreaView>
   );
 };
@@ -22,12 +24,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingTop: 100
+    paddingTop: 100,
+
+  },
+  stockView:{
+    paddingHorizontal:20,
   },
   title: {
     fontWeight: "bold",
     marginBottom: 20,
     fontSize: 32,
+    textAlign:'center'
   },
 });
 

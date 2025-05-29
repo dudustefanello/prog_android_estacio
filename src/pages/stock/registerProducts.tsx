@@ -61,7 +61,7 @@ const RegisterProducts = () => {
 
 const styles = StyleSheet.create({
   containerProducts: {
-    width: '80%',
+    width: 'auto',
     alignItems: "center",
     gap: 20,
     
