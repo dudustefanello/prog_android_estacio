@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, TextInput } from "react-native";
 import StockLayount from "../../components/layount/stockLayount";
+import ButtonStock from "../../components/ui/buttonStock";
 
 const RegisterProducts = () => {
-  const [nameProduct, setNameProduct] = useState("");
-  const [category, setCategory] = useState("");
-  const [value, setValue] = useState("");
-  const [amount, setAmount] = useState("");
-  const [validity, setValidity] = useState("");
+  const [registerProducts, setRegisterProducts] = useState({
+    name: "",
+    category: "",
+    value: "",
+    amout: "",
+    validity: "",
+  });
+
+  const saveValueRegister = () => {
+    console.log(registerProducts);
+    
+  };
 
   return (
     <StockLayount title="Cadastro de Produtos">
@@ -16,24 +24,30 @@ const RegisterProducts = () => {
           <Text style={styles.label}>Nome do Produto</Text>
           <TextInput
             style={styles.input}
-            value={nameProduct}
-            onChangeText={setNameProduct}
+            value={registerProducts.name}
+            onChangeText={(text) =>
+              setRegisterProducts({ ...registerProducts, name: text })
+            }
           />
         </View>
-        <View  style={styles.fieldInput}>
+        <View style={styles.fieldInput}>
           <Text style={styles.label}>Categoria</Text>
           <TextInput
             style={styles.input}
-            value={category}
-            onChangeText={setCategory}
+            value={registerProducts.category}
+            onChangeText={(text) =>
+              setRegisterProducts({ ...registerProducts, category: text })
+            }
           />
         </View>
         <View style={styles.fieldInput}>
           <Text style={styles.label}>Valor</Text>
           <TextInput
             style={styles.input}
-            value={value}
-            onChangeText={setValue}
+            value={registerProducts.value}
+            onChangeText={(text) =>
+              setRegisterProducts({ ...registerProducts, value: text })
+            }
             keyboardType="numeric"
           />
         </View>
@@ -41,8 +55,10 @@ const RegisterProducts = () => {
           <Text style={styles.label}>Quantidade</Text>
           <TextInput
             style={styles.input}
-            value={amount}
-            onChangeText={setAmount}
+            value={registerProducts.amout}
+            onChangeText={(text) =>
+              setRegisterProducts({ ...registerProducts, amout: text })
+            }
             keyboardType="numeric"
           />
         </View>
@@ -50,21 +66,23 @@ const RegisterProducts = () => {
           <Text style={styles.label}>Data de Validade</Text>
           <TextInput
             style={styles.input}
-            value={validity}
-            onChangeText={setValidity}
+            value={registerProducts.validity}
+            onChangeText={(text) =>
+              setRegisterProducts({ ...registerProducts, validity: text })
+            }
           />
         </View>
       </View>
+      <ButtonStock title="Registrar" onPress={saveValueRegister} />
     </StockLayount>
   );
 };
 
 const styles = StyleSheet.create({
   containerProducts: {
-    width: 'auto',
+    width: "auto",
     alignItems: "center",
     gap: 20,
-    
   },
   fieldInput: {
     width: "100%",
@@ -79,7 +97,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 8,
-    paddingLeft:10,
+    paddingLeft: 10,
     backgroundColor: "#f9f9f9",
   },
 });

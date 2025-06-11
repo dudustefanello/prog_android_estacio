@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import StockLayount from "../../components/layount/stockLayount";
 import ButtonStock from "../../components/ui/buttonStock";
@@ -20,19 +20,18 @@ const productStart: products[] = [
   { nome: "Salgado", quantidade: 0, preco: 20 },
   { nome: "Energético", quantidade: 0, preco: 40 },
   { nome: "alface", quantidade: 0, preco: 10 },
-    { nome: "Salgado", quantidade: 0, preco: 20 },
+  { nome: "Salgado", quantidade: 0, preco: 20 },
   { nome: "Energético", quantidade: 0, preco: 40 },
   { nome: "alface", quantidade: 0, preco: 10 },
-    { nome: "Salgado", quantidade: 0, preco: 20 },
+  { nome: "Salgado", quantidade: 0, preco: 20 },
   { nome: "Energético", quantidade: 0, preco: 40 },
   { nome: "alface", quantidade: 0, preco: 10 },
-    { nome: "Salgado", quantidade: 0, preco: 20 },
+  { nome: "Salgado", quantidade: 0, preco: 20 },
   { nome: "Energético", quantidade: 0, preco: 40 },
   { nome: "alface", quantidade: 0, preco: 10 },
-    { nome: "Salgado", quantidade: 0, preco: 20 },
+  { nome: "Salgado", quantidade: 0, preco: 20 },
   { nome: "Energético", quantidade: 0, preco: 40 },
   { nome: "alface", quantidade: 0, preco: 10 },
-
 ];
 
 const Sellers = () => {
@@ -49,46 +48,48 @@ const Sellers = () => {
 
   const somarProdutos = (index: number, mult: number = 1) => {
     const novosProdutos = [...products];
-    novosProdutos[index].quantidade += 1 * mult;
-    setproducts(novosProdutos);
+    const valueUpdate = (novosProdutos[index].quantidade += 1 * mult);
+    if (valueUpdate >= 0) {
+      setproducts(novosProdutos);
+    }
   };
 
   const saveValue = () => {
-
-  }
+    console.log("salvando");
+  };
 
   return (
     <StockLayount title="Vendas">
       <ScrollView>
         <View style={styles.containerSellers}>
-        {products.map((product, index) => (
-          <SafeAreaView style={styles.layountProducts} key={index}>
-            <View style={styles.viewProducts}>
-              <Text>
-                {product.nome}
-              </Text>
-              <Text>
-                {`${product.quantidade} x ${product.preco} = ${product.quantidade * product.preco}`}
-              </Text>
-            </View>
-            <View style={styles.viewQuantidade}>
-              <TouchableOpacity
-                style={styles.botao}
-                onPress={() => somarProdutos(index, -1)}
-              >
-                <Text style={styles.sinal}>−</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.botao}
-                onPress={() => somarProdutos(index)}
-              >
-                <Text style={styles.sinal}>+</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.divisor}></View>
-          </SafeAreaView>
-        ))}
-      </View>
+          {products.map((product, index) => (
+            <SafeAreaView style={styles.layountProducts} key={index}>
+              <View style={styles.viewProducts}>
+                <Text>{product.nome}</Text>
+                <Text>
+                  {`${product.quantidade} x ${product.preco} = ${
+                    product.quantidade * product.preco
+                  }`}
+                </Text>
+              </View>
+              <View style={styles.viewQuantidade}>
+                <TouchableOpacity
+                  style={styles.botao}
+                  onPress={() => somarProdutos(index, -1)}
+                >
+                  <Text style={styles.sinal}>−</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.botao}
+                  onPress={() => somarProdutos(index)}
+                >
+                  <Text style={styles.sinal}>+</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.divisor}></View>
+            </SafeAreaView>
+          ))}
+        </View>
       </ScrollView>
 
       <View style={styles.totalPreco}>
@@ -96,7 +97,7 @@ const Sellers = () => {
         <Text>{`R$ ${allPreco}`}</Text>
       </View>
 
-      <ButtonStock title="Salvar" onPress={saveValue}/>
+      <ButtonStock title="Salvar" onPress={saveValue} />
     </StockLayount>
   );
 };
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
   containerSellers: {
     width: "100%",
     alignItems: "flex-start",
-    paddingHorizontal:20
+    paddingHorizontal: 20,
   },
   layountProducts: {
     width: "100%",
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   totalPreco: {
-    marginTop:10,
+    marginTop: 10,
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
