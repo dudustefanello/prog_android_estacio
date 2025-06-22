@@ -62,6 +62,6 @@ export class ProductModel {
                     SET amount = (SELECT amount - ?
                                   FROM products AS p
                                   WHERE p.id = products.id)
-                    WHERE id = ?;`, []);
+                    WHERE id = ?;`, [id, amount]);
     }
 }

@@ -6,7 +6,7 @@ type stockLayountProps = {
   children: React.ReactNode;
 };
 
-const StockLayount = ({ title, children }: stockLayountProps) => {
+const StockLayout = ({ title, children }: stockLayountProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.stockView}>
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StockLayount;
+export default StockLayout;

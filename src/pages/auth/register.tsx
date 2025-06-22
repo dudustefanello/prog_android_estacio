@@ -4,7 +4,7 @@ import CustomButton from "../../components/ui/customButton";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../../App";
-import {UserModel} from "../../database/models/user";
+import {UserModel} from "../../database/models/user.model";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 

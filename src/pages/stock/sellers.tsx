@@ -7,7 +7,7 @@ import {
     View,
     ScrollView,
 } from "react-native";
-import StockLayount from "../../components/layount/stockLayount";
+import StockLayout from "../../components/layout/stockLayout";
 import ButtonStock from "../../components/ui/buttonStock";
 import {ProductModel} from "../../database/models/product.model";
 import db from "../../database/database";
@@ -53,7 +53,7 @@ const Sellers = () => {
     };
 
     return (
-        <StockLayount title="Vendas">
+        <StockLayout title="Vendas">
             <ScrollView>
                 <View style={styles.containerSellers}>
                     {products.map((product, index) => (
@@ -92,7 +92,7 @@ const Sellers = () => {
             </View>
 
             <ButtonStock title="Salvar" onPress={saveValue}/>
-        </StockLayount>
+        </StockLayout>
     );
 };
 

@@ -9,7 +9,7 @@ import {
     TouchableWithoutFeedback,
     Keyboard
 } from "react-native";
-import StockLayount from "../../components/layount/stockLayount";
+import StockLayout from "../../components/layout/stockLayout";
 import ButtonStock from "../../components/ui/buttonStock";
 import {CategoryModel} from "../../database/models/category.model";
 import {Picker} from "@react-native-picker/picker";
@@ -43,7 +43,7 @@ const RegisterProducts = () => {
     };
 
     return (
-        <StockLayount title="Cadastro de Produtos">
+        <StockLayout title="Cadastro de Produtos">
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.containerProducts}>
                     <View style={styles.fieldInput}>
@@ -156,7 +156,7 @@ const RegisterProducts = () => {
                 </View>
             </TouchableWithoutFeedback>
             <ButtonStock title="Registrar" onPress={saveValueRegister}/>
-        </StockLayount>
+        </StockLayout>
     );
 };
 
