@@ -1,7 +1,10 @@
 import db from "./database";
+import {UserModel} from "./models/user.model";
 
 const migrations: string[] = [
     'CREATE TABLE migrations (id INTEGER PRIMARY KEY, date TIMESTAMP DEFAULT current_timestamp);',
+    UserModel.create_table,
+    UserModel.insert_default,
 ]
 
 function getMaxMigration(): number {

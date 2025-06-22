@@ -1,30 +1,30 @@
-import React, { useState } from "react";
-import { View, TextInput, StyleSheet, SafeAreaView, Text } from "react-native";
+import React, {useState} from "react";
+import {View, TextInput, StyleSheet, SafeAreaView, Text} from "react-native";
 import CustomButton from "../../components/ui/customButton";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../App";
-import { useStage } from "../../global/stages";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../../App";
+import {useStage} from "../../global/stages";
+import {UserModel} from "../../database/models/user";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const Login = () => {
-  const navigation = useNavigation<NavigationProp>();
-  const { setIsLoggedIn } = useStage();
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+    const navigation = useNavigation<NavigationProp>();
+    const {setIsLoggedIn} = useStage();
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
 
-  const handleLogin = () => {
-    if (email.length != 0 && senha.length != 0) {
-      console.log({
-        email: email,
-        senha:senha
-      })
-      setIsLoggedIn(true);
-    } else {
-      console.log("Valor necessario");
-    }
-  };
+    const handleLogin = () => {
+        if (email.length != 0 && senha.length != 0) {
+            const user = new UserModel(email, senha);
+            if (user.login())
+                setIsLoggedIn(true);
+            else
+                console.warn('Login falhou: Email ou senha incorretos');
+        } else
+            console.warn("Valor necessario");
+    };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -56,31 +56,31 @@ const Login = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loginBox: {
-    width: 200,
-    alignItems: "center",
-    gap: 10,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 16,
-  },
-  input: {
-    width: "100%",
-    height: 48,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingTop: 20,
-    backgroundColor: "#f9f9f9",
-  },
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    loginBox: {
+        width: 200,
+        alignItems: "center",
+        gap: 10,
+    },
+    title: {
+        fontSize: 24,
+        marginBottom: 16,
+    },
+    input: {
+        width: "100%",
+        height: 48,
+        borderColor: "#ccc",
+        borderWidth: 1,
+        borderRadius: 8,
+        paddingHorizontal: 12,
+        paddingTop: 20,
+        backgroundColor: "#f9f9f9",
+    },
 });
 
 export default Login;

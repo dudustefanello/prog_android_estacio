@@ -1,24 +1,24 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, {createContext, useState, useContext, ReactNode} from 'react';
 
 type StageType = {
-  isLoggedIn: boolean;
-  setIsLoggedIn: (value: boolean) => void;
+    isLoggedIn: boolean;
+    setIsLoggedIn: (value: boolean) => void;
 };
 
 const Stages = createContext<StageType | undefined>(undefined);
 
-export const StageProvider = ({ children }: { children: ReactNode }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); 
+export const StageProvider = ({children}: { children: ReactNode }) => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  return (
-    <Stages.Provider value={{ isLoggedIn, setIsLoggedIn }}>
-      {children}
-    </Stages.Provider>
-  );
+    return (
+        <Stages.Provider value={{isLoggedIn, setIsLoggedIn}}>
+            {children}
+        </Stages.Provider>
+    );
 };
 
 export const useStage = () => {
-  const context = useContext(Stages);
-  if (!context) throw new Error('error');
-  return context;
+    const context = useContext(Stages);
+    if (!context) throw new Error('error');
+    return context;
 };
