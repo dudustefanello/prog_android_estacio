@@ -1,20 +1,32 @@
 import React, {useEffect, useState} from "react";
-import {Text, View, StyleSheet, TextInput, TouchableOpacity, Modal} from "react-native";
+import {
+    Text,
+    View,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
+    Modal,
+    TouchableWithoutFeedback,
+    Keyboard
+} from "react-native";
 import StockLayount from "../../components/layount/stockLayount";
 import ButtonStock from "../../components/ui/buttonStock";
 import {CategoryModel} from "../../database/models/category.model";
 import {Picker} from "@react-native-picker/picker";
+import {ProductModel} from "../../database/models/product.model";
+
+const defaultProduct = {
+    name: "",
+    category: new CategoryModel(""),
+    price: 0,
+    amout: 0,
+    validity: "",
+}
 
 const RegisterProducts = () => {
     const [showPicker, setShowPicker] = useState(false);
     const [categories, setCategories] = useState<CategoryModel[]>([]);
-    const [registerProducts, setRegisterProducts] = useState({
-        name: "",
-        category: new CategoryModel(""),
-        value: "",
-        amout: "",
-        validity: "",
-    });
+    const [registerProducts, setRegisterProducts] = useState(defaultProduct);
 
     useEffect(() => {
         const loadCategories = () => {
@@ -25,103 +37,124 @@ const RegisterProducts = () => {
     }, []);
 
     const saveValueRegister = () => {
-        console.log(registerProducts);
-
+        const product = new ProductModel(registerProducts.name, registerProducts.price, registerProducts.amout);
+        product.insert(registerProducts.category, registerProducts.validity);
+        setRegisterProducts(defaultProduct)
     };
 
     return (
         <StockLayount title="Cadastro de Produtos">
-            <View style={styles.containerProducts}>
-                <View style={styles.fieldInput}>
-                    <Text style={styles.label}>Nome do Produto</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={registerProducts.name}
-                        onChangeText={(text) =>
-                            setRegisterProducts({...registerProducts, name: text})
-                        }
-                    />
-                </View>
-                <View style={styles.fieldInput}>
-                    <Text style={styles.label}>Categoria</Text>
-                    <TouchableOpacity
-                        style={styles.input}
-                        onPress={() => setShowPicker(true)}
-                    >
-                        <Text style={{paddingTop: 15}}>
-                            {registerProducts.category.name || "Selecione uma categoria"}
-                        </Text>
-                    </TouchableOpacity>
-
-                    <Modal
-                        visible={showPicker}
-                        transparent={true}
-                        animationType="slide"
-                    >
-                        <View style={styles.modalContainer}>
-                            <View style={styles.pickerContainer}>
-                                <View style={styles.pickerHeader}>
-                                    <TouchableOpacity onPress={() => setShowPicker(false)}>
-                                        <Text style={styles.pickerHeaderText}>Fechar</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <Picker
-                                    selectedValue={registerProducts.category.id}
-                                    onValueChange={(itemValue) => {
-                                        const selectedCategory = categories.find(cat => cat.id === itemValue);
-                                        if (selectedCategory) {
-                                            setRegisterProducts({...registerProducts, category: selectedCategory});
-                                        }
-                                        setShowPicker(false);
-                                    }}
-                                    itemStyle={{color: 'black', fontSize: 16}} // Adiciona cor e tamanho aos itens
-                                >
-                                    <Picker.Item label="Selecione uma categoria" value={0}/>
-                                    {categories.map(category => (
-                                        <Picker.Item
-                                            key={category.id}
-                                            label={category.name}
-                                            value={category.id}
-                                        />
-                                    ))}
-                                </Picker>
-                            </View>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.containerProducts}>
+                    <View style={styles.fieldInput}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.label}>Nome do Produto</Text>
+                            <Text style={styles.required}>*</Text>
                         </View>
-                    </Modal>
+                        <TextInput
+                            style={styles.input}
+                            value={registerProducts.name}
+                            onChangeText={(text) =>
+                                setRegisterProducts({...registerProducts, name: text})
+                            }
+                            autoCapitalize="words"
+                        />
+                    </View>
+                    <View style={styles.fieldInput}>
+                        <Text style={styles.label}>Categoria</Text>
+                        <TouchableOpacity
+                            style={styles.input}
+                            onPress={() => setShowPicker(true)}
+                        >
+                            <Text style={{paddingTop: 15}}>
+                                {registerProducts.category.name || "Selecione uma categoria"}
+                            </Text>
+                        </TouchableOpacity>
+
+                        <Modal
+                            visible={showPicker}
+                            transparent={true}
+                            animationType="slide"
+                        >
+                            <View style={styles.modalContainer}>
+                                <View style={styles.pickerContainer}>
+                                    <View style={styles.pickerHeader}>
+                                        <TouchableOpacity onPress={() => setShowPicker(false)}>
+                                            <Text style={styles.pickerHeaderText}>Fechar</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <Picker
+                                        selectedValue={registerProducts.category.id}
+                                        onValueChange={(itemValue) => {
+                                            const selectedCategory = categories.find(cat => cat.id === itemValue);
+                                            if (selectedCategory) {
+                                                setRegisterProducts({...registerProducts, category: selectedCategory});
+                                            }
+                                            setShowPicker(false);
+                                        }}
+                                        itemStyle={{color: 'black', fontSize: 16}} // Adiciona cor e tamanho aos itens
+                                    >
+                                        <Picker.Item label="Selecione uma categoria" value={0}/>
+                                        {categories.map(category => (
+                                            <Picker.Item
+                                                key={category.id}
+                                                label={category.name}
+                                                value={category.id}
+                                            />
+                                        ))}
+                                    </Picker>
+                                </View>
+                            </View>
+                        </Modal>
+                    </View>
+                    <View style={styles.fieldInput}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.label}>Preço</Text>
+                            <Text style={styles.required}>*</Text>
+                        </View>
+                        <TextInput
+                            style={styles.input}
+                            value={registerProducts.price.toString()}
+                            onChangeText={(text) => {
+                                const numericValue = text.replace(/[^0-9]/g, '');
+                                setRegisterProducts({
+                                    ...registerProducts,
+                                    price: numericValue ? parseInt(numericValue) : 0
+                                });
+                            }}
+                            keyboardType="numeric"
+                        />
+                    </View>
+                    <View style={styles.fieldInput}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.label}>Quantidade</Text>
+                            <Text style={styles.required}>*</Text>
+                        </View>
+                        <TextInput
+                            style={styles.input}
+                            value={registerProducts.amout.toString()}
+                            onChangeText={(text) => {
+                                const numericValue = text.replace(/[^0-9]/g, '');
+                                setRegisterProducts({
+                                    ...registerProducts,
+                                    amout: numericValue ? parseInt(numericValue) : 0
+                                });
+                            }}
+                            keyboardType="numeric"
+                        />
+                    </View>
+                    <View style={styles.fieldInput}>
+                        <Text style={styles.label}>Data de Validade</Text>
+                        <TextInput
+                            style={styles.input}
+                            value={registerProducts.validity}
+                            onChangeText={(text) =>
+                                setRegisterProducts({...registerProducts, validity: text})
+                            }
+                        />
+                    </View>
                 </View>
-                <View style={styles.fieldInput}>
-                    <Text style={styles.label}>Valor</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={registerProducts.value}
-                        onChangeText={(text) =>
-                            setRegisterProducts({...registerProducts, value: text})
-                        }
-                        keyboardType="numeric"
-                    />
-                </View>
-                <View style={styles.fieldInput}>
-                    <Text style={styles.label}>Quantidade</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={registerProducts.amout}
-                        onChangeText={(text) =>
-                            setRegisterProducts({...registerProducts, amout: text})
-                        }
-                        keyboardType="numeric"
-                    />
-                </View>
-                <View style={styles.fieldInput}>
-                    <Text style={styles.label}>Data de Validade</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={registerProducts.validity}
-                        onChangeText={(text) =>
-                            setRegisterProducts({...registerProducts, validity: text})
-                        }
-                    />
-                </View>
-            </View>
+            </TouchableWithoutFeedback>
             <ButtonStock title="Registrar" onPress={saveValueRegister}/>
         </StockLayount>
     );
@@ -139,6 +172,7 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 16,
         marginBottom: 4,
+        flexDirection: 'row',
     },
     input: {
         width: "100%",
@@ -171,6 +205,10 @@ const styles = StyleSheet.create({
         color: '#007AFF',
         fontSize: 16,
         textAlign: 'right'
+    },
+    required: {
+        color: 'red',
+        marginLeft: 4,
     },
 });
 
