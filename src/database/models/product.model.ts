@@ -46,4 +46,17 @@ export class ProductModel {
             this.id = result.lastInsertRowId;
         })
     }
+
+    static selectForSell(): ProductModel[] {
+        return db.getAllSync<ProductModel>(`SELECT id, name, price, 0 AS amount
+                                            FROM products`)
+    }
+
+    static decrementAmount(id: number, amount: number): void {
+        db.runSync(`UPDATE products
+                    SET amount = (SELECT amount - ?
+                                  FROM products AS p
+                                  WHERE p.id = products.id)
+                    WHERE id = ?;`, []);
+    }
 }
