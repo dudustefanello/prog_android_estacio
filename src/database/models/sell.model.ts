@@ -18,6 +18,11 @@ export class SellModel {
                                    VALUES (?)`, [this.total]);
         this.id = result.lastInsertRowId;
     }
+
+    static selectForHistory() {
+        return db.getAllSync<SellModel>(`SELECT id, date, total
+                                         FROM sell`)
+    }
 }
 
 export class SellItemModel {

@@ -52,6 +52,11 @@ export class ProductModel {
                                             FROM products`)
     }
 
+    static selectForHistory() {
+        return db.getAllSync<ProductModel>(`SELECT id, name, price, amount
+                                            FROM products`)
+    }
+
     static decrementAmount(id: number, amount: number): void {
         db.runSync(`UPDATE products
                     SET amount = (SELECT amount - ?

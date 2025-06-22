@@ -46,7 +46,7 @@ const AppStock = () => {
                 tabBarIcon: ({color, size}) => {
                     let iconName = "";
 
-                    if (route.name === "Histórico") {
+                    if (route.name === "Resumo") {
                         iconName = "stats-chart-outline";
                     } else if (route.name === "Registrar") {
                         iconName = "create-outline";
@@ -61,7 +61,7 @@ const AppStock = () => {
         >
             <Tab.Screen name="Registrar" component={RegisterProducts}/>
             <Tab.Screen name="Vendas" component={Sellers}/>
-            <Tab.Screen name="Histórico" component={History}/>
+            <Tab.Screen name="Resumo" component={History}/>
         </Tab.Navigator>
     );
 };
