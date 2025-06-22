@@ -1,0 +1,61 @@
+name: Build Android APK
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Android
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: npm
+
+      - name: Get version from package.json
+        id: package_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Install global dependencies
+        run: |
+          npm install -g eas-cli
+          npm install -g expo-cli
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Configure EAS
+        run: eas build:configure
+
+      - name: Build APK e extrair URL
+        id: build
+        run: |
+          BUILD_OUTPUT=$(eas build --platform android --profile preview --non-interactive)
+          BUILD_URL=$(echo "$BUILD_OUTPUT" | grep -Eo 'https:\/\/[a-zA-Z0-9./?=_-]+' | head -1)
+          echo "BUILD_URL=$BUILD_URL" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.package_version.outputs.VERSION }}
+          release_name: Release v${{ steps.package_version.outputs.VERSION }}
+          body: |
+            Build concluída.
+            Baixe o APK em: ${{ steps.build.outputs.BUILD_URL }}
